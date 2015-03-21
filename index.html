@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>ES6 and Webcomponents</title>
+  <title>ES6</title>
 
   <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
   <meta name="author" content="Hakim El Hattab">
@@ -38,11 +38,18 @@
 
 <div class="reveal">
 
+<!-- TODO:
+  - Remove Web Components (probably too much for a 15-minute talk)
+  - Add block scoping, let, and const to Sugar
+  - Add for... of to Built-ins
+  - Add spread and rest to Defaults
+  - Add modules
+  - Add generators/yield (time permitting)
+ -->
 <!-- Any section element inside of this container is displayed as a slide -->
 <div class="slides">
-<section data-background='http://img.photobucket.com/albums/v232/DaveMcFly/Animated%20GIFs/DeloreanLanding.gif'>
-  <h1 style="text-shadow: 2px 2px black">ES6 and Web Components</h1>
-  <h3 style="text-shadow: 2px 2px black">The Future of JavaScript</h3>
+<section data-background='img/DeloreanLanding.gif'>
+  <h1 style="text-shadow: 2px 2px black">ES6: The Future of JavaScript</h1>
   <p>
     <small style="text-shadow: 1px 1px black">Created by <a href="http://github.com/epzilla">Adam Epling</a></small>
   </p>
@@ -51,28 +58,45 @@
 <section>
   <h2>Agenda</h2>
   <ul>
+    <li>What is it?</li>
     <li>ES6 Additions</li>
       <ul>
         <li>Sugar</li>
-        <li>Built-in Libs</li>
+        <li>Built-in Lib Improvements</li>
         <li>Promises</li>
+        <li>Generators</li>
         <li>Classes</li>
         <li>Modules</li>
+        <li>Other Stuff</li>
       </ul>
-    <li>Web Components</li>
-    <li>How Can I Use These Right Now?</li>
+    <li>How Can I Use This Right Now?</li>
   </ul>
 </section>
 
-<section data-background="img/sugar-04.jpg">
-  <h1 style='color:black'>Sugar</h1>
+<section>
+  <h3>What is ECMAScript?</h3>
+  <ul>
+    <li>ECMAScript is the international standard that defines JavaScript (and languages like ActionScript have implemented it as well).</li>
+    <li>It's up to each browser vendor to implement the standard</li>
+    <li>ES6 has been in the works in some form or another since 2008. It was "feature frozen" in Aug. 2014; the spec is in the process of being finalized, with a target publish date in June 2015.</li>
+    <li>Major browsers have already rolled out many of the proposed features in preparation.</li>
+  </ul>
 </section>
 
-<!-- Arrow Functions -->
 <section>
+  <h1>So let's look at some of what we'll be getting with ES6...</h1>
+</section>
+
+<!-- Sugar -->
+<section>
+  <section data-background="img/sugar.gif">
+    <h1 style='text-shadow: 2px 2px black'>Sugar</h1>
+  </section>
+
+  <!-- Arrow Functions -->
   <section>
     <h1>Arrow Functions</h1>
-    <img src="http://fc02.deviantart.net/fs8/i/2005/272/a/5/ARROWED__Teen_Girl_Squad_by_TedHead.gif" width="50%">
+    <img src="img/arrowed.gif" width="50%">
   </section>
 
   <section>
@@ -88,8 +112,10 @@
       var add = (a, b) => a + b;
     </code></pre>
   </section>
+  <!-- End Arrow Functions -->
 
-  <section data-background='http://gifrific.com/wp-content/uploads/2013/05/This-Guy-Jim-Halpert-The-Office.gif'>
+  <!-- Lexical "This" -->
+  <section data-background='img/thisguy.gif'>
     <h1 style="text-shadow: 3px 3px black, 3px -3px black, -3px 3px black, -3px -3px black">Lexical "this"</h1>
   </section>
 
@@ -101,7 +127,7 @@ function Person() {
   this.age = 0;
 
   setInterval(function growUp() {
-    // In nonstrict mode, the growUp() function defines `this` 
+    // In nonstrict mode, the growUp() function defines `this`
     // as the global object, which is different from the `this`
     // defined by the Person() constructor.
     this.age++;
@@ -116,7 +142,7 @@ var p = new Person();
     <h4>Until now, we got around it by doing this...</h4>
     <pre><code class="javascript">
 function Person() {
-  var self = this; // Some choose `that` instead of `self`. 
+  var self = this; // Some choose `that` instead of `self`.
                    // Choose one and be consistent.
   self.age = 0;
 
@@ -132,7 +158,7 @@ function Person() {
   <section>
     <h4>But in ES6, it's all good...</h4>
     <pre><code class="javascript">
-function Person(){
+function Person() {
   this.age = 0;
 
   setInterval(() => {
@@ -142,14 +168,58 @@ function Person(){
 
 var p = new Person();
     </code></pre>
-    <img src="http://media.giphy.com/media/vgUFOWBwBkziE/giphy.gif">
+    <img src="img/stanley.gif">
   </section>
-</section>
-<!-- End Arrow Functions -->
+  <!-- End Lexical "This" -->
+
+  <!-- Let, Const, & Block Scope -->
+  <section>
+    <h1>Let, Const, and Block Scope</h1>
+  </section>
+
+  <section>
+    <h1>Functional Scope</h1>
+    <pre><code class="javascript">
+function () {
+  for (var i = 0; i < 5; i++) {
+    //...
+  }
+  // Will print 5, even though
+  // we're outside of the block
+  // in which i was declared.
+  console.log(i);
+}    </code></pre>
+  </section>
+
+  <section>
+    <h1>Block Scoping with "let"</h1>
+    <pre><code class="javascript">
+function () {
+  for (let i = 0; i < 5; i++) {
+    //...
+  }
+  // ReferenceError: i is not defined
+  console.log(i);
+}    </code></pre>
+  </section>
+
+  <section>
+    <h1>Constants</h1>
+    <pre><code class="javascript">
+function () {
+  const hooray = 'Hooray!';
+  hooray = 'Boo!';
+
+  // In strict mode, you'll get
+  // TypeError: Assignment to constant variable.
+  // In non-strict mode, prints 'Hooray!'
+  console.log(hooray);
+}    </code></pre>
+  </section>
+  <!-- End Let, Const, & Block Scope -->
 
 <!-- Template Strings -->
-<section>
-  <section data-background='http://s3-ec.buzzfed.com/static/2015-02/6/11/enhanced/webdr12/anigif_enhanced-21489-1423241457-4.gif'>
+  <section data-background='img/strings.gif'>
     <h1 style="text-shadow: 2px 2px black">Template Strings</h1>
   </section>
 
@@ -158,7 +228,7 @@ var p = new Person();
     <pre><code class="javascript">
 var name = 'Roger';
 var job = 'Shrubber';
-console.log('My name is ' + name + '. I am a ' + job + 
+console.log('My name is ' + name + '. I am a ' + job +
       '.\n They call me "' + name + ' the ' + job + '".');
 // My name is Roger. I am a Shrubber.
 // They call me "Roger the Shrubber".
@@ -171,7 +241,7 @@ console.log('My name is ' + name + '. I am a ' + job +
 var name = 'Roger';
 var job = 'Shrubber';
 console.log(`My name is ${name}. I am a ${job}.
-       They call me "${name} the ${job}".`);
+             They call me "${name} the ${job}".`);
 // My name is Roger. I am a Shrubber.
 // They call me "Roger the Shrubber".
     </code></pre>
@@ -185,49 +255,138 @@ console.log(`My name is ${name}. I am a ${job}.
       <li>No need to escape special characters</li>
     </ul>
   </section>
-</section>
-<!-- End Template Strings -->
+  <!-- End Template Strings -->
 
-<!-- Let, Const, & Lexical Scope -->
-<!-- End Let, Const, & Lexical Scope -->
-
-<!-- Arrays -->
-<!-- End Arrays -->
-
-<!-- Default Params, Spread, & Rest -->
-<section>
-  <section data-background='http://i.imgur.com/DDpTOM0.gif'>
+  <!-- Default Params, Spread, & Rest -->
+  <section data-background='img/spread.gif'>
     <h1 style="text-shadow: 2px 2px black">Default Params, Spread, &amp; Rest</h1>
   </section>
 
   <section>
     <h2>Default Params</h2>
     <pre><code class="javascript">
-      function registerEmployee (name, email, password, job) {
-
+      var f = function (x, y=12) {
+        return x + 7;
       }
+
+      // Or, using an arrow function...
+      var f = (x, y=12) => x + y;
+
+      console.log(f(3)); // 15
+    </code></pre>
+  </section>
+  <section>
+    <h2>Spread Operator</h2>
+    <pre><code class="javascript">
+      function addThree(x, y, z) {
+        return x + y + z;
+      }
+      var nums = [1, 2, 3];
+      addThree(...nums); // returns 6
+
+      var parts = ['shoulder', 'knees'];
+      var lyrics = ['head', ...parts, 'and', 'toes'];
+    </code></pre>
+  </section>
+  <section>
+    <h2>Spread Operator</h2>
+    <pre><code class="javascript">
+      // A better "push"
+      // ES5 way to add to existing array
+      var arr1 = [0, 1, 2];
+      var arr2 = [3, 4, 5];
+      // Append all items from arr2 onto arr1
+      Array.prototype.push.apply(arr1, arr2);
+
+      // ES6 way
+      var arr1 = [0, 1, 2];
+      var arr2 = [3, 4, 5];
+      arr1.push(...arr2);
+    </code></pre>
+  </section>
+  <section>
+    <h2>Rest Parameters</h2>
+    <pre><code class="javascript">
+      function sortRestArgs(...theArgs) {
+        return theArgs.sort();
+      }
+
+      console.log(sortRestArgs(5,3,7,1)); // 1,3,5,7
+
+      function add(...nums) {
+        return nums.reduce(function (a, b) {
+          return a + b;
+        });
+      }
+
+      console.log(add(1,2,3,4)); // 10
+    </code></pre>
+  </section>
+  <!-- End Default Params, Spread, & Rest -->
+</section>
+<!-- End Sugar -->
+
+<!-- Native Libs -->
+<section>
+  <section data-background="img/library.gif">
+    <h1>Built-in Library Improvements</h1>
+  </section>
+  <section>
+    <h1>Arrays</h1>
+    <pre><code class="javascript">
+var nums = [1, 2, 3, 4, 5];
+var sum = 0;
+for (var i of nums) {
+  sum += i;
+}
+console.log(sum) // 15
+
+Array.from(document.querySelectorAll('*')) // Returns a real Array
+[0, 0, 0].fill(7, 1) // [0,7,7]
+[1, 2, 3].find(x => x == 3) // 3
+[1, 2, 3].findIndex(x => x == 2) // 1
+["a", "b", "c"].entries() // iterator [0, "a"], [1,"b"], [2,"c"]
+["a", "b", "c"].keys() // iterator 0, 1, 2
+["a", "b", "c"].values() // iterator "a", "b", "c"
     </code></pre>
   </section>
 
   <section>
-    <h2>Default Params</h2>
+    <h1>Maps & Sets</h1>
     <pre><code class="javascript">
-      function f(x, y=12) {
-        // y is 12 if not passed (or passed as undefined)
-        return x + y;
-      }
-      f(3) == 15
+      // Sets
+      var s = new Set();
+      s.add("hello").add("goodbye").add("hello");
+      s.size === 2;
+      s.has("hello") === true;
+
+      // Maps
+      var m = new Map();
+      m.set("hello", 42);
+      m.set(s, 34);
+      m.get(s) == 34;
+    </code></pre>
+  </section>
+
+  <section>
+    <h1>Strings</h1>
+    <pre><code class="javascript">
+      var getty = 'Four score and seven years ago';
+
+      console.log(getty.includes('ore')); // true
+      console.log(getty.startsWith('Five')); // false
+      console.log(getty.endsWith('go')); // true
+
+      var ha = "HA";
+      console.log(ha.repeat(4)); // HAHAHAHA
     </code></pre>
   </section>
 </section>
-<!-- End Default Params, Spread, & Rest -->
-
-<!-- Native Libs -->
-<!-- End Native Libs -->        
+<!-- End Native Libs -->
 
 <!-- Promises -->
 <section>
-  <section data-background='http://reactiongifs.me/wp-content/uploads/2013/09/anchorman-yes-jumping.gif'>
+  <section data-background='img/yeah.gif'>
     <h1>Promises</h1>
   </section>
 
@@ -256,26 +415,261 @@ console.log(`My name is ${name}. I am a ${job}.
         return doEvenMoreThings();
       }).then(() => {
         return rockOn();
-      });
+      }).catch( err => {
+        console.error(err); // If anything went wrong with any of
+                            // the calls, the whole chain fails.
+      });;
+    </code></pre>
+  </section>
+
+  <section>
+    <p>Sometimes we may want to make a bunch of async requests simultaneously, then once all of them return something, proceed.</p>
+    <pre><code class="javascript">
+      Promise.all([doStuff(), doMoreStuff(), doEvenMoreStuff()])
+        .then( results => {
+          console.log(results[0]); // Result of doStuff()
+          console.log(results[1]); // Result of doMoreStuff()
+          console.log(results[2]); // Result of doEvenMoreStuff()
+        })
+        .catch( err => {
+          console.error(err);
+        });
     </code></pre>
   </section>
 </section>
 <!-- End Promises -->
 
+<!-- Generators -->
+<section>
+  <section data-background="img/tesla.gif">
+    <h1 style="text-shadow: 2px 2px black;">Generators</h1>
+  </section>
+
+  <section>
+    <h1>They're a little tough to explain, so....</h1>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*</a>
+  </section>
+</section>
+<!-- End Generators -->
+
 <!-- Classes -->
+<section>
+  <section data-background='img/class.gif'>
+    <h1 style="text-shadow: 2px 2px black; background: rgba(0, 0, 0, 0.5)">Classes</h1>
+  </section>
+
+  <section>
+    <h1>The Current Way(s)</h1>
+    <pre><code class="javascript">
+      var Person = function (firstName) {
+        this.firstName = firstName;
+      };
+
+      Person.prototype.sayHello = function() {
+        console.log("Hello, I'm " + this.firstName);
+      };
+
+      var person1 = new Person("Alice");
+      var person2 = new Person("Bob");
+
+      // call the Person sayHello method.
+      person1.sayHello(); // Hello, I'm Alice
+      person2.sayHello(); // Hello, I'm Bob
+    </code></pre>
+  </section>
+
+  <section>
+    <h1>The Current Way(s)</h1>
+    <pre><code class="javascript">
+      var person = {
+        name: 'Bob',
+        sayHello: function () {
+          return "Hello, I'm " + this.name;
+        }
+      };
+
+      console.log(person.sayHello()); // Hello, I'm Bob
+    </code></pre>
+  </section>
+
+  <section>
+    <h1>The ES6 Way</h1>
+    <pre><code class="javascript">
+      class Person {
+        constructor (name) {
+          this.name = name;
+        }
+
+        sayHello() {
+          return `Hello, I'm ${this.name}`;
+        }
+      }
+
+      var adam = new Person('Adam');
+      console.log(adam.sayHello()); // Hello, I'm Adam
+    </code></pre>
+  </section>
+
+  <section>
+    <h1>The ES6 Way (cont.)</h1>
+    <pre><code class="javascript">
+      class Vehicle {
+        constructor(name) {
+          this.kind = 'Vehicle';
+          this.name = name;
+        }
+        printName() {
+          console.log(this.name);
+        }
+      }
+
+      class Car extends Vehicle {
+        constructor(name) {
+          super(name); //call the parent method with super
+          this.kind = 'Car';
+        }
+      }
+    </code></pre>
+  </section>
+
+</section>
 <!-- End Classes -->
 
 <!-- Modules -->
+<section>
+  <section data-background='img/voltron.gif'>
+    <h1 style="text-shadow: 2px 2px black;">Modules</h1>
+  </section>
+
+  <section>
+    <h1>Current Methods</h1>
+    <p>We can do this in Node...</p>
+    <pre><code class="javascript">
+// Inside file printer.js
+module.exports = {
+  print: function (thingToPrint) {
+    console.log(thingToPrint);
+  }
+}
+
+// Inside some other file...
+var printer = require('printer');
+printer.print('hooray for modularity!'); // hoooray for modularity!
+    </code></pre>
+  </section>
+
+  <section>
+    <h1>Current Methods</h1>
+    <p>We can do the same in the browser using one of these:</p>
+    <p>RequireJS: <a href="http://requirejs.org/">http://requirejs.org/</a></p>
+    <p>Browserify: <a href="http://browserify.org/">http://browserify.org/</a></p>
+    <p>Webpack: <a href="http://webpack.github.io/">http://webpack.github.io/</a></p>
+  </section>
+
+  <section>
+    <h1>But ES6 Has Modules Built-In!</h1>
+    <pre><code class="javascript">
+// Inside file printer.js
+export class Printer {
+  print (thingToPrint) {
+    console.log(thingToPrint);
+  }
+}
+
+// Inside some other file...
+import * as printer from 'printer';
+printer.print('hooray for modulartity!'); // hoooray for modularity!
+    </code></pre>
+  </section>
+
+  <section>
+    <h1>Partial Imports</h1>
+    <pre><code class="javascript">
+      // Inside file triathlon.js
+      export function run () {
+        console.log('Running!');
+      }
+      export function bike () {
+        console.log('Biking!');
+      }
+      export function swim () {
+        console.log('Swimming!');
+      }
+
+      // Inside some other file...
+      import {swim} from 'triathlete';
+      swim(); // Swimming!
+
+    </code></pre>
+  </section>
+
+</section>
 <!-- End Modules -->
 
 <!-- Web Components -->
 <!-- End Web Components -->
 
 <!-- Where Now? -->
+<section>
+  <section data-background='img/andy.gif'>
+    <h1 style="text-shadow: 2px 2px black;">How can I get all this right now?!</h1>
+  </section>
+
+  <section>
+    <h1>Support</h1>
+    <p>Some features already have great browser support.<br/>
+    ("for...of" array iteration, template strings, promises)</p>
+    <a href="https://kangax.github.io/compat-table/es6/">https://kangax.github.io/compat-table/es6/</a>
+  </section>
+
+  <section>
+    <h1>Support</h1>
+    <p>Who's already using it?</p>
+    <ul>
+      <li><a href="https://iojs.org">IO.js</a><span> (fork of NodeJS)</span></li>
+      <li><a href="http://aurelia.io/">Aurelia</a><span> (created by some members of the Angular 2.0 team)</span></li>
+      <li><a href="https://angular.io/">Angular 2.0</a></li>
+      <li><a href="http://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html">ReactJS v0.13 beta</a><span> Supports ES6 classes. Planning for full ES6 support soon.</span></li>
+    </ul>
+
+    <br/>
+    <p>ES6 final spec is expected to be approved in June. After that, it's up to the browsers to implement.</p>
+  </section>
+
+  <section>
+    <h1>But if you don't want to wait, you can use...</h1>
+  </section>
+
+  <section>
+    <h1>"Transpilers"</h1>
+    <h3>Babel (formerly known as 6-to-5)</h3>
+    <ul>
+      <li>Runs as one of your gulp/grunt/etc. build tasks</li>
+    </ul>
+    <br/>
+    <a href="https://babeljs.io/">https://babeljs.io</a>
+    <br/><br/><br/>
+    <h3>Traceur</h3>
+    <ul>
+      <li>Embedded as a runtime script</li>
+      <li>Compiles to ES5 when page loads</li>
+    </ul>
+    <a href="https://github.com/google/traceur-compiler">https://github.com/google/traceur-compiler</a>
+  </section>
+
+  <section>
+    <h1>More Info</h1>
+    <a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript">https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript</a>
+    <br/><br/>
+    <small>Some of the code samples in this presentation may or may not have been lifted directly from these sites, because...</small>
+    <img src="img/time-for-dat.gif" width="400" height="auto" />
+  </section>
+</section>
 <!-- End Where Now? -->
 
 <section>
-  <img src="http://media.giphy.com/media/JEeo6oKaDdKx2/giphy.gif" width="100%" height="auto">
+  <img src="img/thatseverything.gif" width="100%" height="auto">
 </section>
 </div>
 
