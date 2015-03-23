@@ -20,6 +20,12 @@
   <!-- Code syntax highlighting -->
   <link rel="stylesheet" href="lib/css/zenburn.css">
 
+  <style type="text/css">
+    .reveal h1.shadow {
+      text-shadow: 2px 2px black;
+    }
+  </style>
+
   <!-- Printing and PDF exports -->
   <script>
     var link = document.createElement( 'link' );
@@ -49,7 +55,7 @@
 <!-- Any section element inside of this container is displayed as a slide -->
 <div class="slides">
 <section data-background='img/DeloreanLanding.gif'>
-  <h1 style="text-shadow: 2px 2px black">ES6: The Future of JavaScript</h1>
+  <h1 class="shadow">ES6: The Future of JavaScript</h1>
   <p>
     <small style="text-shadow: 1px 1px black">Created by <a href="http://github.com/epzilla">Adam Epling</a></small>
   </p>
@@ -90,7 +96,7 @@
 <!-- Sugar -->
 <section>
   <section data-background="img/sugar.gif">
-    <h1 style='text-shadow: 2px 2px black'>Sugar</h1>
+    <h1 class="shadow">Sugar</h1>
   </section>
 
   <!-- Arrow Functions -->
@@ -173,8 +179,8 @@ var p = new Person();
   <!-- End Lexical "This" -->
 
   <!-- Let, Const, & Block Scope -->
-  <section>
-    <h1>Let, Const, and Block Scope</h1>
+  <section data-background="img/let.jpg">
+    <h1 class="shadow">Let, Const, and Block Scope</h1>
   </section>
 
   <section>
@@ -220,7 +226,7 @@ function () {
 
 <!-- Template Strings -->
   <section data-background='img/strings.gif'>
-    <h1 style="text-shadow: 2px 2px black">Template Strings</h1>
+    <h1 class="shadow">Template Strings</h1>
   </section>
 
   <section>
@@ -259,7 +265,7 @@ console.log(`My name is ${name}. I am a ${job}.
 
   <!-- Default Params, Spread, & Rest -->
   <section data-background='img/spread.gif'>
-    <h1 style="text-shadow: 2px 2px black">Default Params, Spread, &amp; Rest</h1>
+    <h1 class="shadow">Default Params, Spread, &amp; Rest</h1>
   </section>
 
   <section>
@@ -329,7 +335,7 @@ console.log(`My name is ${name}. I am a ${job}.
 <!-- Native Libs -->
 <section>
   <section data-background="img/library.gif">
-    <h1>Built-in Library Improvements</h1>
+    <h1 class="shadow">Built-in Library Improvements</h1>
   </section>
   <section>
     <h1>Arrays</h1>
@@ -387,7 +393,7 @@ Array.from(document.querySelectorAll('*')) // Returns a real Array
 <!-- Promises -->
 <section>
   <section data-background='img/yeah.gif'>
-    <h1>Promises</h1>
+    <h1 class="shadow">Promises</h1>
   </section>
 
   <section>
@@ -442,7 +448,7 @@ Array.from(document.querySelectorAll('*')) // Returns a real Array
 <!-- Generators -->
 <section>
   <section data-background="img/tesla.gif">
-    <h1 style="text-shadow: 2px 2px black;">Generators</h1>
+    <h1 class="shadow">Generators</h1>
   </section>
 
   <section>
@@ -455,7 +461,7 @@ Array.from(document.querySelectorAll('*')) // Returns a real Array
 <!-- Classes -->
 <section>
   <section data-background='img/class.gif'>
-    <h1 style="text-shadow: 2px 2px black; background: rgba(0, 0, 0, 0.5)">Classes</h1>
+    <h1 class="shadow" style="background: rgba(0, 0, 0, 0.5)">Classes</h1>
   </section>
 
   <section>
@@ -538,7 +544,7 @@ Array.from(document.querySelectorAll('*')) // Returns a real Array
 <!-- Modules -->
 <section>
   <section data-background='img/voltron.gif'>
-    <h1 style="text-shadow: 2px 2px black;">Modules</h1>
+    <h1 class="shadow">Modules</h1>
   </section>
 
   <section>
@@ -612,7 +618,7 @@ printer.print('hooray for modulartity!'); // hoooray for modularity!
 <!-- Where Now? -->
 <section>
   <section data-background='img/andy.gif'>
-    <h1 style="text-shadow: 2px 2px black;">How can I get all this right now?!</h1>
+    <h1 class="shadow">How can I get all this right now?!</h1>
   </section>
 
   <section>
