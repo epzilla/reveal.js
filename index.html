@@ -340,7 +340,7 @@ console.log(`My name is ${name}. I am a ${job}.
     <pre><code class="javascript">
 var nums = [1, 2, 3, 4, 5];
 var sum = 0;
-for (var i of nums) {
+for (let i of nums) {
   sum += i;
 }
 console.log(sum) // 15
@@ -382,7 +382,12 @@ Array.from(document.querySelectorAll('*')) // Returns a real Array
       console.log(getty.endsWith('go')); // true
 
       var ha = "HA";
-      console.log(ha.repeat(4)); // HAHAHAHA
+      for (let i of ha) {
+        console.log(i);    // Will print 'H', then 'A'
+      }
+
+      console.log(ha.repeat(4)); // 'HAHAHAHA'
+
     </code></pre>
   </section>
 </section>
